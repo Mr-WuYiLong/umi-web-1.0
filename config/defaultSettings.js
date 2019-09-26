@@ -10,7 +10,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: 'Ant Design Pro',
+  title: 'umi-web-1.0',
   pwa: false,
   iconfontUrl: '',
 };

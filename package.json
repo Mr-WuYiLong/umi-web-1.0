@@ -1,5 +1,5 @@
 {
-  "name": "ant-design-pro",
+  "name": "web",
   "version": "1.0.0",
   "private": true,
   "description": "An out-of-box UI solution for enterprise applications",
@@ -48,6 +48,7 @@
   "dependencies": {
     "@ant-design/pro-layout": "^4.5.9",
     "@antv/data-set": "^0.10.2",
+    "ant-design-pro": "^2.3.2",
     "antd": "^3.20.0",
     "classnames": "^2.2.6",
     "dva": "^2.4.1",

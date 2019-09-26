@@ -84,8 +84,8 @@ class WrapFormItem extends Component {
   };
 
   render() {
-    const { count } = this.state; // 这么写是为了防止restProps中 带入 onChange, defaultValue, rules props tabUtil
-
+     // 这么写是为了防止restProps中 带入 onChange, defaultValue, rules props tabUtil
+    const { count } = this.state;
     const {
       onChange,
       customProps,

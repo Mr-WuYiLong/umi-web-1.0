@@ -1,16 +1,16 @@
 import { Button, Form } from 'antd';
 import React from 'react';
-import classNames from 'classnames';
 import styles from './index.less';
+
 const FormItem = Form.Item;
 
-const LoginSubmit = ({ className, ...rest }) => {
-  const clsString = classNames(styles.submit, className);
-  return (
+/**
+ * 登录按钮
+ */
+const LoginSubmit = ({ ...rest }) => (
     <FormItem>
-      <Button size="large" className={clsString} type="primary" htmlType="submit" {...rest} />
+      <Button size="large" className={styles.submit} type="primary" htmlType="submit" {...rest} />
     </FormItem>
   );
-};
 
 export default LoginSubmit;
