@@ -16,6 +16,6 @@ export default [
     extra: {
       rules: [{ required: true, message: '请输入你的密码!' }],
     },
-    content: <Input type="password" size="large" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="密码"/>,
+    content: <Input type="password" autoComplete="true" size="large" prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="密码"/>,
   },
 ]

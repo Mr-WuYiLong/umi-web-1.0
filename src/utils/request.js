@@ -3,7 +3,7 @@
  * 更详细的 api 文档: https://github.com/umijs/umi-request
  */
 import { extend } from 'umi-request';
-import { notification } from 'antd';
+import { notification, message } from 'antd';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -50,8 +50,23 @@ const errorHandler = error => {
  */
 
 const request = extend({
+  prefix: '/api',
   errorHandler,
   // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
 });
+
+// 中间件-用于处理通用的响应提示和请求过滤
+request.use(async (ctx, next) => {
+  // 处理request
+  await next();
+  // 处理response
+  if (ctx.res.code !== undefined) {
+    if (ctx.res.code !== 0) {
+      message.error(ctx.res.msg);
+    } else {
+      message.success(ctx.res.msg);
+    }
+  }
+})
 export default request;

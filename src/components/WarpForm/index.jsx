@@ -7,8 +7,8 @@ import { Form } from 'antd';
 @Form.create()
 class WarpForm extends PureComponent {
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const { formItem } = this.props;
+    const { form, formItem } = this.props;
+    const { getFieldDecorator } = form;
     // const formItemLayout = {
     //   labelCol: {
     //     xs: { span: 24 },
@@ -19,6 +19,8 @@ class WarpForm extends PureComponent {
     //     sm: { span: 19 },
     //   },
     // };
+
+
     return (
       <Form>
         {
@@ -33,6 +35,7 @@ class WarpForm extends PureComponent {
             ),
           )
         }
+
       </Form>
     )
   }
