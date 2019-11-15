@@ -1,4 +1,4 @@
-import React, { PureComponent, useCallback } from 'react';
+import React, { PureComponent } from 'react';
 import WarpForm from '@/components/WarpForm';
 import { Button } from 'antd';
 import { connect } from 'dva'
@@ -26,7 +26,7 @@ class Login extends PureComponent {
   // 登录
   handleLogin = () => {
     const { dispatch } = this.props;
-    this.form.props.form.validateFields((errors, values) => {
+    this.form.validateFields((errors, values) => {
       if (!errors) {
         dispatch({
           type: 'login/login',
@@ -40,7 +40,7 @@ class Login extends PureComponent {
     const { loading } = this.props;
     return (
       <div className={styles.middle}>
-        <WarpForm formItem={formItem} wrappedComponentRef={form => { this.form = form }}/>
+        <WarpForm formItem={formItem} ref={form => { this.form = form }}/>
         <Button loading={loading} size="large" type="primary" block onClick={this.handleLogin}>登录</Button>
       </div>
     )

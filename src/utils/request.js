@@ -61,7 +61,7 @@ request.use(async (ctx, next) => {
   // 处理request
   await next();
   // 处理response
-  if (ctx.res.code !== undefined) {
+  if (ctx.res.msg !== undefined) {
     if (ctx.res.code !== 0) {
       message.error(ctx.res.msg);
     } else {
