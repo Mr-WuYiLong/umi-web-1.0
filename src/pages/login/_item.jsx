@@ -5,7 +5,7 @@ import { Input, Icon } from 'antd';
  */
 export default [
   {
-    name: 'account',
+    name: 'username',
     extra: {
       rules: [{ required: true, message: '请输入你的账号!' }],
     },

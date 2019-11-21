@@ -13,4 +13,8 @@ export default {
   title: 'umi-web-1.0',
   pwa: false,
   iconfontUrl: '',
+  oauth2: {
+    clientId: 'umi', // 客户端id
+    clientSecret: '11111', // 客户端密码
+  },
 };

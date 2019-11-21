@@ -5,7 +5,7 @@ import { getPageQuery } from '@/utils/utils';
 export default {
   namespace: 'login',
   state: {
-    data: 'eee',
+    currentAdmin: {},
   },
   effects: {
     *login({ payload }, { call, put }) {
@@ -30,6 +30,11 @@ export default {
             return;
           }
         }
+
+        yield put({
+          type: 'saveCurrentAdminSuccess',
+          data: res.data,
+        })
         yield put(routerRedux.replace(redirect || '/welcome'))
       }
     },
@@ -38,6 +43,11 @@ export default {
     },
   },
   reducers: {
-
+    saveCurrentAdminSuccess(state, { data }) {
+      return {
+        ...state,
+        currentAdmin: data,
+      }
+    },
   },
 }

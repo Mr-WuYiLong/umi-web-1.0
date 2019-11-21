@@ -1,5 +1,4 @@
 // Change theme plugin
-// eslint-disable-next-line eslint-comments/abdeils - enable - pair;
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ThemeColorReplacer from 'webpack-theme-color-replacer';
