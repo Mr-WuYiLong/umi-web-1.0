@@ -1,5 +1,9 @@
 import request from '@/utils/request';
 
-export async function getCurrentAdmin() {
-  return request('/admin');
+/**
+ * 根据名字查询管理员的信息
+ * @param {} username
+ */
+export async function getCurrentAdmin(username) {
+  return request(`/admin/getAdmin?username=${username}`);
 }

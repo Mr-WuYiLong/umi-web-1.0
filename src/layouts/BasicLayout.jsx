@@ -51,15 +51,14 @@ const footerRender = (_, defaultDom) => {
 const BasicLayout = props => {
   const { dispatch, children, settings } = props;
   /**
-   * constructor
+   * constructor 组件每次渲染的时候都会触发一次
    */
-
   useEffect(() => {
     if (dispatch) {
-      console.log(55555)
-      dispatch({
-        type: 'user/fetchCurrent',
-      });
+      // dispatch({
+      //   type: 'admin/getCurrentAdmin',
+      //   username: loginAdmin.username,
+      // });
       dispatch({
         type: 'settings/getSetting',
       });

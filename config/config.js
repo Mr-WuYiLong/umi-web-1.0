@@ -129,12 +129,12 @@ export default {
     basePath: '/',
   },
   chainWebpack: webpackPlugin,
-  proxy: {
-    '/api': {
-      target: 'http://localhost:7001',
-      changeOrigin: true,
-      pathRewrite: { '^/api': '' },
-    },
-  },
+  // proxy: {
+  //   '/api': {
+  //     target: 'http://localhost:7001',
+  //     changeOrigin: true,
+  //     pathRewrite: { '^/api': '' },
+  //   },
+  // },
 
 };

@@ -27,10 +27,6 @@ class AvatarDropdown extends React.Component {
 
   render() {
     const {
-      currentAdmin = {
-        avatar: '',
-        account: '',
-      },
       menu,
     } = this.props;
     const menuHeaderDropdown = (
@@ -55,11 +51,11 @@ class AvatarDropdown extends React.Component {
         </Menu.Item>
       </Menu>
     );
-    return currentAdmin && currentAdmin.account ? (
+    return localStorage.getItem('username') ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>
-          <Avatar size="small" className={styles.avatar} src={currentAdmin.avatar} alt="avatar" />
-          <span className={styles.name}>{currentAdmin.account}</span>
+          {/* <Avatar size="small" className={styles.avatar} src={currentAdmin.avatar} alt="avatar" /> */}
+          <span className={styles.name}>{localStorage.getItem('username')}</span>
         </span>
       </HeaderDropdown>
     ) : (
@@ -74,6 +70,6 @@ class AvatarDropdown extends React.Component {
   }
 }
 
-export default connect(({ login }) => ({
-  currentAdmin: login.currentAdmin,
+export default connect(() => ({
+
 }))(AvatarDropdown);

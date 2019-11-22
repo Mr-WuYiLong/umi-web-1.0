@@ -14,7 +14,8 @@ export default {
   pwa: false,
   iconfontUrl: '',
   oauth2: {
-    clientId: 'umi', // 客户端id
-    clientSecret: '11111', // 客户端密码
+    client_id: 'umi', // 客户端id
+    client_secret: '11111', // 客户端密码
+    grant_type: 'password', // 验证的模式
   },
 };
