@@ -10,9 +10,6 @@ export default {
   effects: {
     *login({ payload }, { call, put }) {
       const { data, status } = yield call(fakeAccountLogin, payload);
-      // 把传过来的token的信息保存到本地
-      localStorage.setItem('access_token', data.access_token);
-      localStorage.setItem('refresh_token', data.refresh_token);
       // 登录成功
       if (status === 200) {
         const urlParams = new URL(window.location.href);
@@ -30,13 +27,17 @@ export default {
             return;
           }
         }
-
+        // 把传过来的token的信息保存到本地
+        localStorage.setItem('access_token', `${data.token_type} ${data.access_token}`);
+        localStorage.setItem('refresh_token', data.refresh_token);
         // 登录成功后，把用户名保存到本地
         localStorage.setItem('username', payload.username);
         yield put(routerRedux.replace(redirect || '/welcome'))
       }
     },
     *logout(_, { put }) {
+      // 把本地的token和用户名，清除
+      localStorage.clear();
       yield put(routerRedux.replace('/user/login'))
     },
   },

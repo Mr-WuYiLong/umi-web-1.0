@@ -8,11 +8,11 @@ export default {
   fixSiderbar: false,
   colorWeak: false,
   menu: {
-    locale: true,
+    locale: false,
   },
   title: 'umi-web-1.0',
   pwa: false,
-  iconfontUrl: '',
+  iconfontUrl: '//at.alicdn.com/t/font_306235_gpgbou9k2v.js',
   oauth2: {
     client_id: 'umi', // 客户端id
     client_secret: '11111', // 客户端密码

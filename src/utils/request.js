@@ -60,14 +60,26 @@ const request = extend({
 // 中间件-用于处理通用的响应提示和请求过滤
 request.use(async (ctx, next) => {
   // 处理request
-  await next();
-  // 处理response
-  if (ctx.res.msg !== undefined) {
-    if (ctx.res.code !== 0) {
-      message.error(ctx.res.msg);
-    } else {
-      message.success(ctx.res.msg);
+    if (ctx.req.url.indexOf('/api/login/index') === -1) {
+      ctx.req.options.headers = {
+        Authorization: localStorage.getItem('access_token'),
+      };
     }
-  }
+  await next();
+  // 处理response，业务信息的提示
+    if (ctx.res.msg !== undefined) {
+      if (ctx.res.code !== 0) {
+        message.error(ctx.res.msg);
+      } else {
+        message.success(ctx.res.msg);
+      }
+    }
+
+    // 登录时的用户提示
+    if (ctx.res.status === 400) {
+      message.error('账号或密码错误');
+    } else if (ctx.res.status === 200) {
+      message.success('登录成功');
+    }
 })
 export default request;

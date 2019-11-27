@@ -5,6 +5,7 @@ import { connect } from 'dva';
 import router from 'umi/router';
 import HeaderDropdown from '../HeaderDropdown';
 import styles from './index.less';
+import AdminLogo from '@/assets/admin.jpg';
 
 class AvatarDropdown extends React.Component {
   onMenuClick = event => {
@@ -54,7 +55,7 @@ class AvatarDropdown extends React.Component {
     return localStorage.getItem('username') ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>
-          {/* <Avatar size="small" className={styles.avatar} src={currentAdmin.avatar} alt="avatar" /> */}
+          <Avatar size="small" className={styles.avatar} src={AdminLogo} alt="avatar" />
           <span className={styles.name}>{localStorage.getItem('username')}</span>
         </span>
       </HeaderDropdown>

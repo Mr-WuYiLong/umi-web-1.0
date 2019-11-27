@@ -1,26 +1,33 @@
-import { getCurrentAdmin } from '@/services/admin';
+import { getAdminList } from '@/services/admin';
 
 export default {
   namespace: 'admin',
   state: {
-    currentAdmin: null,
+      adminList: {
+        data: [],
+        pagination: {
+          current: 1,
+          pageSize: 10,
+          total: 0,
+        },
+      },
   },
   effects: {
-    *getCurrentAdmin({ username }, { call, put }) {
-      const res = yield call(getCurrentAdmin, username);
+    *getAdminList({ params }, { call, put }) {
+      const res = yield call(getAdminList, params);
       if (res.code === 0) {
         yield put({
-          type: 'getCurrentAdminSuccess',
+          type: 'getAdminListSuccess',
           data: res.data,
         })
       }
     },
   },
   reducers: {
-    getCurrentAdminSuccess(state, { data }) {
+    getAdminListSuccess(state, { data }) {
       return {
         ...state,
-        currentAdmin: data,
+        adminList: data,
       }
     },
   },
