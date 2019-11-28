@@ -4,6 +4,7 @@
  */
 import { extend } from 'umi-request';
 import { notification, message } from 'antd';
+import defaultSetting from '../../config/defaultSettings'
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -61,8 +62,19 @@ const request = extend({
 request.use(async (ctx, next) => {
   // 处理request
     if (ctx.req.url.indexOf('/api/login/index') === -1) {
+      // 检测token是否过期
+      const nowTime = Math.ceil(new Date().getTime() / 1000);
+      const ovetTime = Math.ceil(new Date(localStorage.getItem('accessTokenExpiresAt')).getTime() / 1000);
+      const { oauth2 } = defaultSetting;
+      if ((ovetTime - nowTime) <= 50) {
+        const result = await request('/login/refreshToken', {
+          method: 'POST',
+          data: { ...oauth2, grant_type: 'refresh_token' },
+        });
+          console.log(4444)
+      }
       ctx.req.options.headers = {
-        Authorization: localStorage.getItem('access_token'),
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       };
     }
   await next();

@@ -22,7 +22,12 @@ class Admin extends PureComponent {
     return (<PageHeaderWrapper title={false}>
       <Button type="primary">添加</Button>
       <Card>
-        <Table columns={columns} dataSource={data} pagination={pagination}/>
+        <Table
+          rowKey={record => record.id}
+          columns={columns}
+          dataSource={data}
+          pagination={pagination}
+        />
       </Card>
     </PageHeaderWrapper>)
   }

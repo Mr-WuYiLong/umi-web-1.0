@@ -1,11 +1,11 @@
 import { routerRedux } from 'dva/router';
-import { fakeAccountLogin } from '@/services/login';
+import { fakeAccountLogin, getAccessTokenOverTime } from '@/services/login';
 import { getPageQuery } from '@/utils/utils';
 
 export default {
   namespace: 'login',
   state: {
-    loginAdmin: null,
+
   },
   effects: {
     *login({ payload }, { call, put }) {
@@ -28,8 +28,9 @@ export default {
           }
         }
         // 把传过来的token的信息保存到本地
-        localStorage.setItem('access_token', `${data.token_type} ${data.access_token}`);
-        localStorage.setItem('refresh_token', data.refresh_token);
+        localStorage.setItem('access_token', data.accessToken);
+        localStorage.setItem('refresh_token', data.refreshToken);
+        localStorage.setItem('accessTokenExpiresAt', data.accessTokenExpiresAt);
         // 登录成功后，把用户名保存到本地
         localStorage.setItem('username', payload.username);
         yield put(routerRedux.replace(redirect || '/welcome'))
