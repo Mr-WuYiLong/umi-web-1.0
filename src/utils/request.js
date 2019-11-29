@@ -54,6 +54,20 @@ const request = extend({
   prefix: 'http://localhost:7002/api',
   timeout: 10000,
   errorHandler,
+  // headers: {
+  //   Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+  // },
+  // 默认错误处理
+  credentials: 'same-origin', // 默认请求是否带上cookie
+});
+
+const request2 = extend({
+  prefix: 'http://localhost:7002/api',
+  timeout: 10000,
+  errorHandler,
+  // headers: {
+  //   Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+  // },
   // 默认错误处理
   credentials: 'same-origin', // 默认请求是否带上cookie
 });
@@ -61,37 +75,43 @@ const request = extend({
 // 中间件-用于处理通用的响应提示和请求过滤
 request.use(async (ctx, next) => {
   // 处理request
-    if (ctx.req.url.indexOf('/api/login/index') === -1) {
-      // 检测token是否过期
-      const nowTime = Math.ceil(new Date().getTime() / 1000);
-      const ovetTime = Math.ceil(new Date(localStorage.getItem('accessTokenExpiresAt')).getTime() / 1000);
-      const { oauth2 } = defaultSetting;
-      if ((ovetTime - nowTime) <= 50) {
-        const result = await request('/login/refreshToken', {
-          method: 'POST',
-          data: { ...oauth2, grant_type: 'refresh_token' },
-        });
-          console.log(4444)
-      }
-      ctx.req.options.headers = {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-      };
-    }
-  await next();
-  // 处理response，业务信息的提示
-    if (ctx.res.msg !== undefined) {
-      if (ctx.res.code !== 0) {
-        message.error(ctx.res.msg);
-      } else {
-        message.success(ctx.res.msg);
-      }
-    }
+  const nowTime = Math.ceil(new Date().getTime() / 1000);
+  const overTime = Math.ceil(new Date(localStorage.getItem('accessTokenExpiresAt')).getTime() / 1000);
+  const { oauth2 } = defaultSetting;
+  if (ctx.req.url.indexOf('api/login/index') === -1) {
+     // 检测token是否过期
+    if ((overTime - nowTime) <= 0) {
+      const { data, status } = await request2('/login/refreshToken', {
+        method: 'POST',
+        data: { data: { ...oauth2, grant_type: 'refresh_token', refresh_token: localStorage.getItem('refresh_token') } },
+      })
 
-    // 登录时的用户提示
-    if (ctx.res.status === 400) {
-      message.error('账号或密码错误');
-    } else if (ctx.res.status === 200) {
-      message.success('登录成功');
+      if (status === 200) {
+        localStorage.setItem('access_token', data.accessToken);
+        localStorage.setItem('refresh_token', data.refreshToken);
+        localStorage.setItem('accessTokenExpiresAt', data.accessTokenExpiresAt);
+      }
     }
+    ctx.req.options.headers = {
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+    };
+  }
+
+  await next();
+
+  // 处理response，业务信息的提示
+  if (ctx.res.msg !== undefined) {
+    if (ctx.res.code !== 0) {
+      message.error(ctx.res.msg);
+    } else {
+      message.success(ctx.res.msg);
+    }
+  }
+  // 登录时的用户提示
+  if (ctx.res.status === 400) {
+    message.error('账号或密码错误');
+  } else if (ctx.res.status === 200) {
+    message.success('登录成功');
+  }
 })
 export default request;

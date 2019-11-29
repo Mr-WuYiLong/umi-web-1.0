@@ -17,9 +17,9 @@ export async function getFakeCaptcha(mobile) {
   return request(`/api/login/captcha?mobile=${mobile}`);
 }
 
-export async function getAccessTokenOverTime(params) {
-  return request('/login/getAccessTokenOverTime', {
-    method: 'GET',
-    params,
-  })
-}
+// export async function getAccessTokenOverTime(params) {
+//   return request('/login/getAccessTokenOverTime', {
+//     method: 'GET',
+//     params,
+//   })
+// }
