@@ -18,7 +18,7 @@ export default
         {
           path: '/',
           component: '../layouts/BasicLayout',
-          // Routes: ['src/pages/Authorized'],
+          Routes: ['src/pages/Authorized'],
           authority: ['admin', 'user'],
           routes: [
             {
@@ -26,6 +26,7 @@ export default
               redirect: '/welcome',
             },
             {
+              key: '1001',
               path: '/welcome',
               name: '欢迎页',
               icon: 'smile',
@@ -37,10 +38,18 @@ export default
               icon: 'setting',
               routes: [
                 {
+                  key: '2001',
                   path: '/manage/admin',
                   name: '用户管理',
-                  icon: 'icon-guanliyuan',
+                  icon: 'user',
                   component: './admin',
+                },
+                {
+                  key: '2002',
+                  path: '/manage/role',
+                  name: '角色管理',
+                  icon: 'team',
+                  component: './role',
                 },
               ],
             },

@@ -30,13 +30,10 @@ const AuthComponent = ({
   location = {
     pathname: '',
   },
-  login,
 }) => {
-  const { currentAdmin } = login;
-  console.log(currentAdmin)
   const { routes = [] } = route;
-  console.log(routes)
-  const isLogin = currentAdmin && currentAdmin.account;
+
+  const isLogin = localStorage.getItem('username');
   return (
     <Authorized
       authority={getRouteAuthority(location.pathname, routes) || ''}
@@ -47,6 +44,6 @@ const AuthComponent = ({
   );
 };
 
-export default connect(({ login }) => ({
-  login,
+export default connect(() => ({
+
 }))(AuthComponent);
