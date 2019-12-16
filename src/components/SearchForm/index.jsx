@@ -1,10 +1,11 @@
 import React, { PureComponent, Fragment } from 'react';
 import WarpForm from '@/components/WarpForm';
-import { Row, Col, Button, Icon } from 'antd';
+import { Col, Button, Icon } from 'antd';
 
 class SearchForm extends PureComponent {
   state = {
     expand: false,
+    type: 'search',
   };
 
   componentDidMount() {
@@ -37,7 +38,7 @@ class SearchForm extends PureComponent {
 
     return (
     <Fragment>
-        <WarpForm formItem={this.state.expand ? searchItem : searchItem.slice(0, 4)} ref={form => { this.form = form }}>
+        <WarpForm type={this.state.type} formItem={this.state.expand ? searchItem : searchItem.slice(0, 4)} ref={form => { this.form = form }}>
 
           <Col xs={24} sm={12} md={{ span: 6 }} lg={{ span: 6 }} style={{ paddingTop: '3px' }}>
               <Button type="primary" onClick={this.handleSearch}>

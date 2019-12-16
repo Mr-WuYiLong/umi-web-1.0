@@ -7,4 +7,5 @@ export default [
     label: '账号',
     content: <Input placeholder="账号" />,
   },
+
 ]

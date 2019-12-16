@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Card, Table, Button, Row } from 'antd';
+import { Card, Table, Button } from 'antd';
 import SearchForm from '@/components/SearchForm';
 import { connect } from 'dva';
 import columns from './_table';

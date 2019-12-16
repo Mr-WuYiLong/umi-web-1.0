@@ -51,6 +51,13 @@ export default
                   icon: 'team',
                   component: './role',
                 },
+                {
+                  key: '2003',
+                  path: '/manage/permission',
+                  name: '权限管理',
+                  icon: 'safety',
+                  component: './permission',
+                },
               ],
             },
             {
