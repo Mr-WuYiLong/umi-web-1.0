@@ -15,5 +15,11 @@ export default {
         visible: true,
       };
     },
+    hideModal(state) {
+      return {
+        ...state,
+        visible: false,
+      }
+    },
   },
 }

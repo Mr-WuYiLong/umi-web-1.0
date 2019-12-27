@@ -3,7 +3,7 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import SearchForm from '@/components/SearchForm';
 import WarpForm from '@/components/WarpForm';
 import { connect } from 'dva';
-import { Card, Table, Button, Row, Modal } from 'antd';
+import { Card, Table, Button, Row, Modal, Input } from 'antd';
 import columns from './_table';
 import modals from './_modal';
 
@@ -12,10 +12,12 @@ import modals from './_modal';
   loading,
   permissionList: permission.permissionList,
   modal,
+  permissions: permission.permissions,
 }))
 class Permission extends PureComponent {
   state = {
-    isShow: false,
+    modalArr: [],
+    isTap: false,
   }
 
   componentDidMount() {
@@ -32,19 +34,60 @@ class Permission extends PureComponent {
     dispatch({
       type: 'modal/showModal',
     })
+
+    dispatch({
+      type: 'permission/getPermissionList',
+    })
   }
 
   handleOk = () => {
-    this.setState({ isShow: false });
+    const { dispatch } = this.props;
+    // dispatch({
+    //   type: 'modal/hideModal',
+    // })
+
+    this.form.validateFields((errors, values) => {
+      if (!errors) {
+        dispatch({
+          type: 'permission/addPermission',
+          payload: values,
+        })
+      }
+    })
   };
 
   handleCancel = () => {
-    this.setState({ isShow: false });
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'modal/hideModal',
+    })
+    this.setState({ isTap: false });
   };
 
-  render() {
-    const { permissionList: { data, pagination }, loading, modal } = this.props;
+  handleChange = e => {
+    const { permissions } = this.props;
 
+    const data = {
+      name: 'key',
+      label: '键',
+      extra: {
+        rules: [{ required: true, message: '请输入唯一key' }],
+      },
+      content: <Input placeholder="唯一key" allowClear />,
+    };
+
+    const arr = modals(permissions, this);
+    if (e.target.value === 2) {
+      arr.splice(2, 0, data);
+      this.setState({ modalArr: arr, isTap: true });
+    } else {
+      this.setState({ isTap: false });
+    }
+  }
+
+  render() {
+    const { permissions, permissionList: { data, pagination }, loading, modal } = this.props;
+    const { modalArr, isTap } = this.state;
     return (
       <PageHeaderWrapper>
         <Card>
@@ -57,7 +100,7 @@ class Permission extends PureComponent {
             columns={columns}
             dataSource={data}
             pagination={pagination}
-            loading={loading.effects['permission/getPermissionList']}
+            loading={loading.effects['permission/getPermissionPage']}
           />
         </Card>
 
@@ -70,7 +113,7 @@ class Permission extends PureComponent {
           maskClosable={false}
         >
 
-          <WarpForm formItem={modals} ref={form => { this.form = form }} />
+          <WarpForm formItem={isTap ? modalArr : modals(permissions, this)} ref={form => { this.form = form }} />
 
         </Modal>
 

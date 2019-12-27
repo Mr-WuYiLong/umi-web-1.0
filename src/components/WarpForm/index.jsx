@@ -29,7 +29,7 @@ class WarpForm extends PureComponent {
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 10 },
+        sm: { span: 8 },
       },
     };
 
