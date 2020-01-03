@@ -19,8 +19,10 @@ const getRouteAuthority = (path, routeData) => {
       }
     }
   });
+
   return authorities;
 };
+
 
 const AuthComponent = ({
   children,
@@ -32,7 +34,6 @@ const AuthComponent = ({
   },
 }) => {
   const { routes = [] } = route;
-
   const isLogin = localStorage.getItem('username');
   return (
     <Authorized

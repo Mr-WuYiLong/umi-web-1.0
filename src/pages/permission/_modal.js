@@ -1,10 +1,10 @@
 import React from 'react';
 import { Input, Select, Radio } from 'antd';
 
-export default (permissions, self) => [
+export default permissions => [
   {
     name: 'pid',
-    label: '顶级目录',
+    label: '顶级菜单',
     content:
       <Select allowClear placeholder="请选择">
        {permissions.map(item => <Select.Option key={item.id}>{item.name}</Select.Option>)}
@@ -19,11 +19,19 @@ export default (permissions, self) => [
       rules: [{ required: true, message: '请选择类型' }],
     },
     content:
-      <Radio.Group onChange={self.handleChange}>
-        <Radio value={1}>目录</Radio>
-        <Radio value={2}>菜单</Radio>
-        <Radio value={3}>按钮</Radio>
+      <Radio.Group>
+        {/* <Radio value={1}>目录</Radio> */}
+        <Radio value={1}>顶级菜单</Radio>
+        <Radio value={2}>二级菜单</Radio>
       </Radio.Group>,
+  },
+  {
+    name: 'code',
+    label: '键',
+    extra: {
+      rules: [{ required: true, message: 'code' }],
+    },
+    content: <Input placeholder="唯一code" allowClear />,
   },
   {
     name: 'name',
@@ -33,14 +41,14 @@ export default (permissions, self) => [
     },
     content: <Input placeholder="名称" allowClear />,
   },
-  {
-    name: 'path',
-    label: '路径',
-    content: <Input placeholder="路径" allowClear />,
-  },
-  {
-    name: 'action',
-    label: '动作',
-    content: <Input placeholder="动作" allowClear />,
-  },
+  // {
+  //   name: 'path',
+  //   label: '路径',
+  //   content: <Input placeholder="路径" allowClear />,
+  // },
+  // {
+  //   name: 'action',
+  //   label: '动作',
+  //   content: <Input placeholder="动作" allowClear />,
+  // },
 ]

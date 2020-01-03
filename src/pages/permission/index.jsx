@@ -3,11 +3,11 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import SearchForm from '@/components/SearchForm';
 import WarpForm from '@/components/WarpForm';
 import { connect } from 'dva';
-import { Card, Table, Button, Row, Modal, Input } from 'antd';
+import { Card, Table, Button, Row, Modal, Input, Tabs } from 'antd';
 import columns from './_table';
 import modals from './_modal';
 
-
+const { TabPane } = Tabs;
 @connect(({ loading, permission, modal }) => ({
   loading,
   permissionList: permission.permissionList,
@@ -16,8 +16,7 @@ import modals from './_modal';
 }))
 class Permission extends PureComponent {
   state = {
-    modalArr: [],
-    isTap: false,
+
   }
 
   componentDidMount() {
@@ -61,48 +60,78 @@ class Permission extends PureComponent {
     dispatch({
       type: 'modal/hideModal',
     })
-    this.setState({ isTap: false });
   };
 
-  handleChange = e => {
-    const { permissions } = this.props;
+  // // 处理新增是否显示key输入框
+  // handleChange = e => {
+  //   const { permissions } = this.props;
 
-    const data = {
-      name: 'key',
-      label: '键',
-      extra: {
-        rules: [{ required: true, message: '请输入唯一key' }],
-      },
-      content: <Input placeholder="唯一key" allowClear />,
-    };
+  //   const data =
 
-    const arr = modals(permissions, this);
-    if (e.target.value === 2) {
-      arr.splice(2, 0, data);
-      this.setState({ modalArr: arr, isTap: true });
-    } else {
-      this.setState({ isTap: false });
-    }
+  //   const arr = modals(permissions, this);
+  //   if (e.target.value === 1) {
+  //     arr.splice(2, 0, data);
+  //     this.setState({ modalArr: arr, isTap: true });
+  //   } else {
+  //     this.setState({ isTap: false });
+  //   }
+  // }
+
+  // 启用，停用
+  onChange = (status, record, index) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'permission/changeStatus',
+      payload: { status, record, index },
+    })
+  }
+
+  // 删除权限
+  deletePermissionById = (record, index) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'permission/deletePermissionById',
+      payload: { record, index },
+    })
+  }
+
+  tapsCallback = key => {
+  console.log(key);
   }
 
   render() {
     const { permissions, permissionList: { data, pagination }, loading, modal } = this.props;
-    const { modalArr, isTap } = this.state;
     return (
       <PageHeaderWrapper>
-        <Card>
-          {/* <SearchForm searchItem={searchItem} /> */}
-          <Row>
-            <Button type="primary" icon="plus" onClick={this.showModal}>新增</Button>
-          </Row>
-          <Table
-            rowKey={record => record.id}
-            columns={columns}
-            dataSource={data}
-            pagination={pagination}
-            loading={loading.effects['permission/getPermissionPage']}
-          />
-        </Card>
+
+            <Card>
+              {/* <SearchForm searchItem={searchItem} /> */}
+          <Tabs defaultActiveKey="1" onChange={this.tapsCallback}>
+            <TabPane tab="菜单权限" key="1">
+              <Row>
+                <Button type="primary" icon="plus" onClick={this.showModal}>新增</Button>
+              </Row>
+              <Table
+                rowKey={record => record.id}
+                columns={columns(this)}
+                dataSource={data}
+                pagination={pagination}
+                loading={loading.effects['permission/getPermissionPage']}
+              />
+            </TabPane>
+            <TabPane tab="访问权限" key="2">
+              <Table
+                rowKey={record => record.id}
+                columns={columns(this)}
+                dataSource={data}
+                pagination={pagination}
+                loading={loading.effects['permission/getPermissionPage']}
+              />
+         </TabPane>
+
+          </Tabs>,
+            </Card>
+
 
         <Modal
           title="新增权限"
@@ -113,7 +142,7 @@ class Permission extends PureComponent {
           maskClosable={false}
         >
 
-          <WarpForm formItem={isTap ? modalArr : modals(permissions, this)} ref={form => { this.form = form }} />
+          <WarpForm formItem={modals(permissions)} ref={form => { this.form = form }} />
 
         </Modal>
 

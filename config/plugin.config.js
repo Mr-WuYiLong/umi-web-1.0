@@ -35,6 +35,7 @@ export default config => {
     config.plugin('webpack-theme-color-replacer').use(ThemeColorReplacer, [
       {
         fileName: 'css/theme-colors-[contenthash:8].css',
+
         matchColors: getAntdSerials('#1890ff'),
 
         // 主色系列
@@ -42,7 +43,7 @@ export default config => {
         changeSelector(selector) {
           switch (selector) {
             case '.ant-calendar-today .ant-calendar-date':
-              return ':not(.ant-calendar-selected-date)' + selector;
+              return `:not(.ant-calendar-selected-date)${selector}`;
 
             case '.ant-btn:focus,.ant-btn:hover':
               return '.ant-btn:focus:not(.ant-btn-primary),.ant-btn:hover:not(.ant-btn-primary)';
@@ -104,9 +105,7 @@ const getAntdSerials = color => {
   const lightNum = 9;
   const devide10 = 10; // 淡化（即less的tint）
 
-  const lightens = new Array(lightNum).fill(undefined).map((_, i) => {
-    return ThemeColorReplacer.varyColor.lighten(color, i / devide10);
-  });
+  const lightens = new Array(lightNum).fill(undefined).map((_, i) => ThemeColorReplacer.varyColor.lighten(color, i / devide10));
   const colorPalettes = generate(color);
   return lightens.concat(colorPalettes);
 };

@@ -12,8 +12,8 @@ export default self => [
   },
   {
     title: '操作',
-    render: () => (<Row>
-      <Button style={{ marginRight: '5px' }} type="primary" icon="appstore" onClick={self.openAuthModal}>分配权限</Button>
+    render: (_, record) => (<Row>
+      <Button style={{ marginRight: '5px' }} type="primary" icon="appstore" onClick={() => self.openAuthModal(record.id)}>分配权限</Button>
         <Button style={{ marginRight: '5px' }} type="primary" icon="edit">编辑</Button>
         <Button type="primary" icon="delete">删除</Button>
       </Row>),
