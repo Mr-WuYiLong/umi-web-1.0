@@ -35,6 +35,7 @@ const AuthComponent = ({
 }) => {
   const { routes = [] } = route;
   const isLogin = localStorage.getItem('username');
+  console.log(location.pathname)
   return (
     <Authorized
       authority={getRouteAuthority(location.pathname, routes) || ''}

@@ -5,6 +5,6 @@ export default [
   {
     name: 'name',
     label: '名称',
-    content: <Input placeholder="名称" />,
+    content: <Input placeholder="名称" allowClear/>,
   },
 ]

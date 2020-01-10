@@ -16,3 +16,31 @@ export async function getAdminList(params) {
     params,
   });
 }
+
+/**
+ * 新增管理员
+ * @param {*} payload
+ */
+export async function addAdmin(payload) {
+  return request('/admin/addAdmin', {
+    method: 'post',
+    data: payload,
+  });
+}
+
+/**
+ * 更新管理员
+ * @param {*} payload
+ */
+export async function updateAdmin(payload) {
+  return request('/admin/updateAdmin', {
+    method: 'put',
+    data: payload,
+  })
+}
+export async function deleteAdminById(payload) {
+  return request('/admin/deleteAdminById', {
+    method: 'delete',
+    data: payload,
+  })
+}

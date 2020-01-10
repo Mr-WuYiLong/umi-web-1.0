@@ -1,6 +1,6 @@
 import React from 'react';
-import { permissionType, permissionTypeColor, statusType } from '@/utils/meta';
-import { Tag, Switch, Row, Button, Popconfirm, Input } from 'antd';
+import { permissionType, permissionTypeColor } from '@/utils/meta';
+import { Tag, Row, Button, Popconfirm } from 'antd';
 
 
 export default self => [
@@ -25,11 +25,11 @@ export default self => [
     title: 'code',
     dataIndex: 'code',
   },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    render: (status, record, index) => <Switch onChange={() => self.onChange(status, record, index)} checkedChildren="启用" unCheckedChildren="停用" checked={statusType[status]} />,
-  },
+  // {
+  //   title: '状态',
+  //   dataIndex: 'status',
+  //   render: (status, record, index) => <Switch onChange={() => self.onChange(status, record, index)} checkedChildren="启用" unCheckedChildren="停用" checked={statusType[status]} />,
+  // },
   {
     title: '操作',
     render: (_, record, index) => (<Row>

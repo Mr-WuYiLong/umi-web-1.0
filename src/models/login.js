@@ -2,6 +2,7 @@ import { routerRedux } from 'dva/router';
 import { fakeAccountLogin } from '@/services/login';
 import { getPageQuery } from '@/utils/utils';
 import { setAuthority } from '@/utils/authority';
+import { reloadAuthorized } from '@/utils/Authorized';
 
 export default {
   namespace: 'login',
@@ -37,14 +38,16 @@ export default {
         // 当前用户权限
         const arrNum = data.user.codes;
 
+        // 分配权限
         setAuthority(arrNum);
+        reloadAuthorized();
         yield put(routerRedux.replace(redirect || '/'))
       }
     },
     *logout(_, { put }) {
       // 把本地的token和用户名，清除
       localStorage.clear();
-      
+
       yield put(routerRedux.replace('/user/login'))
     },
   },

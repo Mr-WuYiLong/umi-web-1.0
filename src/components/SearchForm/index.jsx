@@ -15,13 +15,13 @@ class SearchForm extends PureComponent {
     }
   }
 
-  handleSearch = () => {
-    this.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
-  };
+  // handleSearch = () => {
+  //   this.form.validateFields((err, values) => {
+  //     if (!err) {
+  //       console.log('Received values of form: ', values);
+  //     }
+  //   });
+  // };
 
   handleReset = () => {
     this.form.resetFields();
@@ -34,14 +34,14 @@ class SearchForm extends PureComponent {
   };
 
   render() {
-    const { searchItem } = this.props;
-
+    const { searchItem, onSearch } = this.props;
+    // console.log(this.searchForm)
     return (
     <Fragment>
         <WarpForm type={this.state.type} formItem={this.state.expand ? searchItem : searchItem.slice(0, 4)} ref={form => { this.form = form }}>
 
           <Col xs={24} sm={12} md={{ span: 6 }} lg={{ span: 6 }} style={{ paddingTop: '3px' }}>
-              <Button type="primary" onClick={this.handleSearch}>
+            <Button type="primary" onClick={() => onSearch(this.form.getFieldsValue())}>
                 搜索
             </Button>
               <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>

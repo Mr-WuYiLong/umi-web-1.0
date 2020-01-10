@@ -19,7 +19,7 @@ export default
           path: '/',
           component: '../layouts/BasicLayout',
           // Routes: ['src/pages/Authorized'],
-          authority: ['user'],
+          // authority: ['user'],
           routes: [
             {
               path: '/',
@@ -33,7 +33,7 @@ export default
               component: './Welcome',
             },
             {
-              // authority: '2000',
+              authority: 'T2000',
               path: '/manage',
               name: '系统管理',
               icon: 'setting',

@@ -38,3 +38,33 @@ export async function assignPermissionById(payload) {
     data: payload,
   })
 }
+
+/**
+ * 添加角色
+ * @param {} payload
+ */
+export async function addRole(payload) {
+  return request('/role/addRole', {
+    method: 'post',
+    data: payload,
+  })
+}
+
+/**
+ * 更新角色
+ * @param {*} payload
+ */
+export async function updateRole(payload) {
+  return request('/role/updateRole', {
+    method: 'put',
+    data: payload,
+  })
+}
+
+// 删除角色
+export async function deleteRoleId(payload) {
+  return request('/role/deleteRoleId', {
+    method: 'delete',
+    data: payload,
+  })
+}

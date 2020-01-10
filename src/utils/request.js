@@ -113,5 +113,14 @@ request.use(async (ctx, next) => {
   } else if (ctx.res.status === 200) {
     message.success('登录成功');
   }
+
+  // 没有权限信息反馈
+  if (ctx.res.code === 403) {
+    const errorText = codeMessage[ctx.res.code];
+    notification.error({
+      message: `请求错误 ${403}: ${ctx.res.url}`,
+      description: errorText,
+    });
+  }
 })
 export default request;

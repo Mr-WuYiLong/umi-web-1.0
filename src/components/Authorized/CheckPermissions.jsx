@@ -12,12 +12,12 @@ import PromiseRender from './PromiseRender';
  * @param { 未通过的组件 | no pass components } Exception
  */
 const checkPermissions = (authority, currentAuthority, target, Exception) => {
-  // console.log(target)
   // 没有判定权限.默认查看所有
   // Retirement authority, return target;
   if (!authority) {
-    return target;
-  } // 数组处理
+      return target;
+    } // 数组处理
+
 
   if (Array.isArray(authority)) {
     if (Array.isArray(currentAuthority)) {
@@ -39,6 +39,7 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
     } else if (authority === currentAuthority) {
       return target;
     }
+
 
     return Exception;
   } // Promise 处理

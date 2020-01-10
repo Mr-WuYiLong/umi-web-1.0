@@ -4,17 +4,19 @@ import {
     getPermissionPage,
     addPermission,
       getPermissionList,
-      changeStatus,
       deletePermissionById,
       getMenuPermissionList,
-
+  getAccessPermissionPage,
+  addAccessPermission,
+  getAccessPermissionList,
+  deleteAccessPermissionById,
+  autoImportAccessPermission,
     } from '@/services/permission';
-import { reloadAuthorized } from '@/utils/Authorized';
-import { setAuthority } from '@/utils/authority';
 
 export default {
   namespace: 'permission',
   state: {
+    // 菜单权限
     permissionList: {
       data: [],
       pagination: {
@@ -23,8 +25,18 @@ export default {
         total: 0,
       },
     },
-    permissions: [],
-    menuPermissions: [],
+    // 访问权限
+    accessPermissionList: {
+      accessData: [],
+      accessPagination: {
+        current: 1,
+        pageSize: 10,
+        total: 0,
+      },
+    },
+    permissions: [], // 所有权限
+    menuPermissions: [], // 菜单权限
+    accessPermissions: [], // 访问权限
   },
   effects: {
     *getPermissionPage({ params }, { call, put }) {
@@ -32,6 +44,15 @@ export default {
       if (res.code === 0) {
         yield put({
           type: 'getPermissionPageSuccess',
+          data: res.data,
+        })
+      }
+    },
+    *getAccessPermissionPage({ params }, { call, put }) {
+      const res = yield call(getAccessPermissionPage, params);
+      if (res.code === 0) {
+        yield put({
+          type: 'getAccessPermissionPageSuccess',
           data: res.data,
         })
       }
@@ -52,6 +73,20 @@ export default {
         })
       }
     },
+    *addAccessPermission({ payload }, { call, put }) {
+      const res = yield call(addAccessPermission, payload);
+      if (res.code === 0) {
+        yield put({
+          type: 'addAccessPermissionSuccess',
+          data: payload,
+        })
+
+        // 隐藏模态框
+        yield put({
+          type: 'modal/hideModal',
+        })
+      }
+    },
     *getPermissionList(_, { call, put }) {
         const res = yield call(getPermissionList);
         if (res.code === 0) {
@@ -61,36 +96,48 @@ export default {
           })
         }
       },
-    *changeStatus({ payload }, { call, put }) {
-      const data = {
-        status: payload.status,
-        id: payload.record.id,
-      }
-      const res = yield call(changeStatus, data);
-      if (res.code === 0) {
-        const authorities = JSON.parse(localStorage.getItem('antd-pro-authority'));
-        // const filtArr = authorities.filter(item => item !== payload.record.code);
-        if (payload.status === 1) {
-          authorities.push(payload.record.code);
-          setAuthority(authorities);
-        } else {
-          const filtArr = authorities.filter(item => item !== payload.record.code);
-          setAuthority(filtArr);
-        }
+    // *changeStatus({ payload }, { call, put }) {
+    //   const data = {
+    //     status: payload.status,
+    //     id: payload.record.id,
+    //   }
+    //   const res = yield call(changeStatus, data);
+    //   if (res.code === 0) {
+    //     // const authorities = JSON.parse(localStorage.getItem('antd-pro-authority'));
+    //     // const filtArr = authorities.filter(item => item !== payload.record.code);
+    //     // if (payload.status === 1) {
+    //     //   authorities.push(payload.record.code);
+    //     //   setAuthority(authorities);
+    //     // } else {
+    //     //   const filtArr = authorities.filter(item => item !== payload.record.code);
+    //     //   setAuthority(filtArr);
+    //     // }
 
-        reloadAuthorized();
-        yield put({
-          type: 'changeStatusSuccess',
-          data: payload,
+    //     // reloadAuthorized();
+    //     yield put({
+    //       type: 'changeStatusSuccess',
+    //       data: payload,
 
-        })
-      }
-    },
+    //     })
+    //   }
+    // },
     *deletePermissionById({ payload }, { call, put }) {
       const res = yield call(deletePermissionById, payload.record.id);
       if (res.code === 0) {
         yield put({
-          type: 'deletePermissionByIdSuccess',
+          type: 'getPermissionPage',
+        })
+        // yield put({
+        //   type: 'deletePermissionByIdSuccess',
+        //   data: payload,
+        // })
+      }
+    },
+    *deleteAccessPermissionById({ payload }, { call, put }) {
+      const res = yield call(deleteAccessPermissionById, payload.record.id);
+      if (res.code === 0) {
+        yield put({
+          type: 'deleteAccessPermissionByIdSuccess',
           data: payload,
         })
       }
@@ -104,6 +151,23 @@ export default {
         })
       }
     },
+    *getAccessPermissionList(_, { call, put }) {
+      const res = yield call(getAccessPermissionList);
+      if (res.code === 0) {
+        yield put({
+          type: 'getAccessPermissionListSuccess',
+          data: res.data,
+        })
+      }
+    },
+    *autoImportAccessPermission(_, { call, put }) {
+      const res = yield call(autoImportAccessPermission);
+      if (res.code === 0) {
+        yield put({
+          type: 'getAccessPermissionPage',
+        })
+      }
+    },
 
    },
 
@@ -114,12 +178,17 @@ export default {
         permissionList: data,
       }
     },
-    // addPermissionSuccess(state, { payload }) {
-    //   payload.status = 0
-    //   state.permissionList.data.unshift(payload);
-    //   state.permissionList.pagination.total += 1;
-    //   return state;
-    // },
+    getAccessPermissionPageSuccess(state, { data }) {
+      return {
+        ...state,
+        accessPermissionList: data,
+      }
+    },
+    addAccessPermissionSuccess(state, { data }) {
+      state.accessPermissionList.accessData.unshift(data);
+      state.accessPermissionList.accessPagination.total += 1;
+      return state;
+    },
     getPermissionListSuccess(state, { data }) {
       return {
         ...state,
@@ -135,14 +204,21 @@ export default {
       state.permissionList.data.splice(data.index, 1, data.record);
       return state;
     },
-    deletePermissionByIdSuccess(state, { data }) {
-      state.permissionList.data.splice(data.index, 1);
+    deleteAccessPermissionByIdSuccess(state, { data }) {
+      state.accessPermissionList.accessData.splice(data.index, 1);
+      state.accessPermissionList.accessPagination.total -= 1;
       return state;
     },
     getMenuPermissionListSuccess(state, { data }) {
       return {
         ...state,
         menuPermissions: data,
+      }
+    },
+    getAccessPermissionListSuccess(state, { data }) {
+      return {
+        ...state,
+        accessPermissions: data,
       }
     },
   },

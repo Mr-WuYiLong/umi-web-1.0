@@ -6,7 +6,7 @@ export default permissions => [
     name: 'pid',
     label: '顶级菜单',
     content:
-      <Select allowClear placeholder="请选择">
+      <Select allowClear placeholder="默认顶级菜单">
        {permissions.map(item => <Select.Option key={item.id}>{item.name}</Select.Option>)}
       </Select>
     ,
@@ -20,7 +20,7 @@ export default permissions => [
     },
     content:
       <Radio.Group>
-        {/* <Radio value={1}>目录</Radio> */}
+
         <Radio value={1}>顶级菜单</Radio>
         <Radio value={2}>二级菜单</Radio>
       </Radio.Group>,
@@ -31,7 +31,7 @@ export default permissions => [
     extra: {
       rules: [{ required: true, message: 'code' }],
     },
-    content: <Input placeholder="唯一code" allowClear />,
+    content: <Input placeholder="有二级菜单的顶级菜单必须要大写T开头" allowClear />,
   },
   {
     name: 'name',

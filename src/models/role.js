@@ -1,6 +1,6 @@
-import { getRolePage, getRoleList, getRoleById, assignPermissionById } from '@/services/role';
-import { setAuthority } from '@/utils/authority';
-import { reloadAuthorized } from '@/utils/Authorized';
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable no-param-reassign */
+import { getRolePage, getRoleList, getRoleById, assignPermissionById, addRole, updateRole, deleteRoleId } from '@/services/role';
 
 export default {
   namespace: 'role',
@@ -16,6 +16,7 @@ export default {
     roles: [], // 角色列表
     // role: {}, // 角色
     checkedKeys: [], // 菜单权限是否选中
+    accessCodes: [], // 访问菜单权限是否选中
   },
   effects: {
     *getRolePage({ params }, { call, put }) {
@@ -49,16 +50,48 @@ export default {
       const res = yield call(assignPermissionById, payload);
       if (res.code === 0) {
         // 重新加载权限，要重新登录
-        setAuthority(payload.checkedKeys);
-        reloadAuthorized();
+        // setAuthority(payload.checkedKeys);
+        // reloadAuthorized();
         yield put({
           type: 'modal/hideModal',
         })
       }
     },
-    // *changeMenuKeys({ payload }, { call, put }) {
-    //   yield put()
-    // },
+    *addRole({ payload }, { call, put }) {
+      const res = yield call(addRole, payload);
+      if (res.code === 0) {
+        yield put({
+          type: 'addRoleSuccess',
+          data: res.data,
+        })
+
+        yield put({
+          type: 'modal/hideModal',
+        })
+      }
+    },
+    *updateRole({ payload }, { call, put }) {
+      const res = yield call(updateRole, payload);
+      if (res.code === 0) {
+        yield put({
+          type: 'role/updateRoleSuccess',
+          data: payload,
+        })
+        yield put({
+          type: 'modal/hideModal',
+        })
+      }
+    },
+    *deleteRoleId({ payload }, { call, put }) {
+      const res = yield call(deleteRoleId, payload);
+      if (res.code === 0) {
+        yield put({
+          type: 'deleteRoleIdSuccess',
+          data: payload,
+        })
+      }
+    },
+
   },
   reducers: {
     getRolePageSuccess(state, { data }) {
@@ -77,7 +110,8 @@ export default {
       return {
         ...state,
         // role: data,
-        checkedKeys: data,
+        checkedKeys: data.newArr,
+        accessCodes: data.accessArr,
       }
     },
     changeMenuKeys(state, { payload }) {
@@ -86,15 +120,24 @@ export default {
         checkedKeys: payload,
       }
     },
-    // assignPermissionByIdSuccess(state, { payload }) {
-    //   // eslint-disable-next-line array-callback-return
-    //   state.roleList.map(item => {
-    //     if (item.id === payload.roleId) {
-    //       item.codes = payload.checkedKeys
-    //     }
-    //   });
-
-    //   return state;
-    // },
+    changeAccessKeys(state, { payload }) {
+      return {
+        ...state,
+        accessCodes: payload,
+      }
+    },
+    addRoleSuccess(state, { data }) {
+      state.roleList.data.unshift(data);
+      state.roleList.pagination.total += 1;
+      return state;
+    },
+    updateRoleSuccess(state, { data }) {
+      state.roleList.data.splice(data.editIndex, 1, data.record);
+      return state;
+    },
+    deleteRoleIdSuccess(state, { data }) {
+      state.roleList.data.splice(data.index, 1);
+      return state;
+    },
   },
 }

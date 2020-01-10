@@ -2,6 +2,7 @@ export default {
   namespace: 'modal',
   state: {
     visible: false,
+    modalShow: null,
   },
   effects: {
     // *showModal() {
@@ -9,16 +10,18 @@ export default {
     // },
   },
   reducers: {
-    showModal(state) {
+    showModal(state, { key }) {
       return {
         ...state,
-        visible: true,
+        modalShow: {
+          [key]: true,
+        },
       };
     },
     hideModal(state) {
       return {
         ...state,
-        visible: false,
+        modalShow: null,
       }
     },
   },
