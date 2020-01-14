@@ -3,12 +3,7 @@
 umi-web-1.0 权限管理系统，是个人开源项目，仅提供个人学习。
 
 ### 内容展示
-![lbOe4s.png](https://s2.ax1x.com/2020/01/14/lbOe4s.png)
-![lbOZNj.png](https://s2.ax1x.com/2020/01/14/lbOZNj.png)
-![lbOVEQ.png](https://s2.ax1x.com/2020/01/14/lbOVEQ.png)
-![lbOAHg.png](https://s2.ax1x.com/2020/01/14/lbOAHg.png)
-![lbOkDS.png](https://s2.ax1x.com/2020/01/14/lbOkDS.png)
-![lbOFu8.jpg](https://s2.ax1x.com/2020/01/14/lbOFu8.jpg)
+![1](https://imgchr.com/i/lbOe4s)
 
 ### 相关技术
 
