@@ -1,6 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-param-reassign */
-import { getAdminList, addAdmin, updateAdmin, deleteAdminById } from '@/services/admin';
+import { getAdminList, addAdmin, updateAdmin, deleteAdminById, updatePassword } from '@/services/admin';
 
 export default {
   namespace: 'admin',
@@ -13,6 +13,7 @@ export default {
           total: 0,
         },
       },
+    visible: false,
   },
   effects: {
     *getAdminList({ params }, { call, put }) {
@@ -59,6 +60,15 @@ export default {
         })
       }
     },
+    *updatePassword({ payload }, { call, put }) {
+     const res = yield call(updatePassword, payload)
+     if (res.code === 0) {
+       yield put({
+         type: 'modal/hideModal',
+       })
+     }
+    },
+
   },
   reducers: {
     getAdminListSuccess(state, { data }) {
@@ -81,5 +91,6 @@ export default {
       state.adminList.pagination.total -= 1;
       return state;
     },
+
   },
 }

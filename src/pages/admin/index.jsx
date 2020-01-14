@@ -19,18 +19,44 @@ class Admin extends PureComponent {
   state = {
     editRecord: null,
     editIndex: null,
+    searchItems: null,
   }
 
   componentDidMount() {
-    const { dispatch, adminList: { pagination } } = this.props;
-    dispatch({
-      type: 'admin/getAdminList',
-      params: pagination,
-    })
-
+    const { dispatch } = this.props;
+    // dispatch({
+    //   type: 'admin/getAdminList',
+    //   params: pagination,
+    // })
+    this.init();
     dispatch({
       type: 'role/getRoleList',
     })
+  }
+
+  // 初始化
+  init = (page = 1, values) => {
+    const { dispatch, adminList: { pagination } } = this.props;
+    dispatch({
+      type: 'admin/getAdminList',
+      params: {
+        ...pagination,
+        ...values,
+        current: page,
+      },
+    })
+  }
+
+  // 搜索
+  onSearch = values => {
+    this.setState({ searchItems: values })
+    this.init(1, values);
+  }
+
+  // 页码跳转
+  onChange = page => {
+    const { searchItems } = this.state;
+    this.init(page, searchItems)
   }
 
   // 新增modal
@@ -96,6 +122,7 @@ class Admin extends PureComponent {
     })
   }
 
+
   render() {
     const { roles, adminList: { data, pagination }, loading, modal } = this.props;
     const { editRecord } = this.state;
@@ -103,7 +130,7 @@ class Admin extends PureComponent {
 
         <Card>
 
-        <SearchForm searchItem={searchItem} />
+        <SearchForm searchItem={searchItem} onSearch={this.onSearch} />
         <Row>
           <Button type="primary" icon="plus" onClick={this.showAddModal}>新增</Button>
         </Row>
@@ -111,7 +138,11 @@ class Admin extends PureComponent {
           rowKey={record => record.id}
           columns={columns(roles, this)}
           dataSource={data}
-          pagination={pagination}
+          pagination={{
+            ...pagination,
+            onChange: this.onChange,
+            showTotal: total => `共有${total}条记录`,
+          }}
           loading={loading.effects['admin/getAdminList']}
         />
         </Card>
@@ -138,6 +169,8 @@ class Admin extends PureComponent {
       >
         <WarpForm formItem={editItem(roles, editRecord)} ref={form => { this.form = form }} />
       </Modal>
+
+
     </PageHeaderWrapper>)
   }
 }

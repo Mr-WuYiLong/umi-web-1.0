@@ -1,5 +1,5 @@
 import { routerRedux } from 'dva/router';
-import { fakeAccountLogin } from '@/services/login';
+import { fakeAccountLogin, updatePassword } from '@/services/login';
 import { getPageQuery } from '@/utils/utils';
 import { setAuthority } from '@/utils/authority';
 import { reloadAuthorized } from '@/utils/Authorized';
@@ -7,7 +7,7 @@ import { reloadAuthorized } from '@/utils/Authorized';
 export default {
   namespace: 'login',
   state: {
-
+    visible: false,
   },
   effects: {
     *login({ payload }, { call, put }) {
@@ -50,13 +50,17 @@ export default {
 
       yield put(routerRedux.replace('/user/login'))
     },
+    *updatePassword({ payload }, { call }) {
+      yield call(updatePassword, payload);
+    },
+    // *updatePasswordModal(_, { call, put }) {
+    //    yield put({
+    //      type: 'modal/showModal',
+    //      key: 'updatePassword',
+    //    })
+    // },
   },
   reducers: {
-    // saveCurrentAdminSuccess(state, { data }) {
-    //   return {
-    //     ...state,
-    //     loginAdmin: data,
-    //   }
-    // },
+
   },
 }

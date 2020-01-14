@@ -17,6 +17,7 @@ export default {
     // role: {}, // 角色
     checkedKeys: [], // 菜单权限是否选中
     accessCodes: [], // 访问菜单权限是否选中
+
   },
   effects: {
     *getRolePage({ params }, { call, put }) {

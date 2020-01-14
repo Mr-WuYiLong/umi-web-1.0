@@ -51,6 +51,7 @@ const footerRender = (_, defaultDom) => {
 
 const BasicLayout = props => {
   const { dispatch, children, settings } = props;
+
   /**
    * constructor 组件每次渲染的时候都会触发一次
    */

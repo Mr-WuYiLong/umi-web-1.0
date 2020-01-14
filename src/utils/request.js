@@ -101,10 +101,12 @@ request.use(async (ctx, next) => {
 
   // 处理response，业务信息的提示
   if (ctx.res.msg !== undefined) {
-    if (ctx.res.code !== 0) {
-      message.error(ctx.res.msg);
-    } else {
+    if (ctx.res.code === 0) {
       message.success(ctx.res.msg);
+    } else if (ctx.res.code === 1) {
+      message.warning(ctx.res.msg);
+    } else {
+      message.error(ctx.res.msg);
     }
   }
   // 登录时的用户提示

@@ -5,6 +5,7 @@ const GlobalModel = {
   state: {
     collapsed: false,
     notices: [],
+    visible: false,
   },
   effects: {
     *fetchNotices(_, { call, put, select }) {
@@ -100,6 +101,13 @@ const GlobalModel = {
         notices: state.notices.filter(item => item.type !== payload),
       };
     },
+    // updatePasswordModal(state) {
+    //   console.log(9999)
+    //   return {
+    //     ...state,
+    //     visible: true,
+    //   }
+    // },
   },
   subscriptions: {
     setup({ history }) {

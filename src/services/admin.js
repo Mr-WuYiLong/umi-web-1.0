@@ -38,9 +38,24 @@ export async function updateAdmin(payload) {
     data: payload,
   })
 }
+
+/**
+ * 删除管理员
+ */
 export async function deleteAdminById(payload) {
   return request('/admin/deleteAdminById', {
     method: 'delete',
+    data: payload,
+  })
+}
+
+/**
+ * 修改密码
+ * @param {*} payload
+ */
+export async function updatePassword(payload) {
+  return request('/admin/updatePassword', {
+    method: 'put',
     data: payload,
   })
 }

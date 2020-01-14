@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import WarpForm from '@/components/WarpForm';
 import { Button } from 'antd';
 import { connect } from 'dva'
@@ -38,11 +38,15 @@ class Login extends PureComponent {
 
   render() {
     const { loading } = this.props;
-    return (
+
+    return (<Fragment>
       <div className={styles.middle}>
-        <WarpForm formItem={formItem} ref={form => { this.form = form }}/>
+        <WarpForm formItem={formItem} ref={form => { this.form = form }} />
         <Button loading={loading} size="large" type="primary" block onClick={this.handleLogin}>登录</Button>
+
       </div>
+    </Fragment>
+
     )
   }
 }
